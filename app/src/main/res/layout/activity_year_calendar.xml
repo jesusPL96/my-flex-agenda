@@ -22,8 +22,8 @@
 
     <Button
         android:id="@+id/yearBefore"
-        android:layout_width="64dp"
-        android:layout_height="58dp"
+        android:layout_width="74dp"
+        android:layout_height="59dp"
         android:text="Izq"
         android:textSize="28sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -35,8 +35,8 @@
 
     <Button
         android:id="@+id/yearAfter"
-        android:layout_width="63dp"
-        android:layout_height="56dp"
+        android:layout_width="79dp"
+        android:layout_height="57dp"
         android:text="Der"
         android:textSize="28sp"
         app:layout_constraintBottom_toBottomOf="parent"
