@@ -3,10 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".YearCalendarActivity">
 
     <TextView
-        android:id="@+id/calendarYearNumber"
+        android:id="@+id/yearCalendarNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="2023"
@@ -23,16 +24,20 @@
         android:id="@+id/yearBefore"
         android:layout_width="64dp"
         android:layout_height="58dp"
-        android:text="<"
+        android:text="Izq"
         android:textSize="28sp"
-        tools:layout_editor_absoluteX="70dp"
-        tools:layout_editor_absoluteY="89dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.21"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.127" />
 
     <Button
         android:id="@+id/yearAfter"
         android:layout_width="63dp"
         android:layout_height="56dp"
-        android:text=">"
+        android:text="Der"
         android:textSize="28sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
