@@ -14,9 +14,23 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.year.setOnClickListener { // Iniciar la nueva actividad (YearCalendarActivity)
+        binding.year.setOnClickListener {
+
             val intent = Intent(this@MainActivity, YearCalendarActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.addButton.setOnClickListener {
+
+            val intent = Intent(this@MainActivity, EventCreateActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.checkEvent.setOnClickListener{
+
+            val intent = Intent(this@MainActivity, EventInfoActivity::class.java)
+            startActivity(intent)
+
         }
 
     }
