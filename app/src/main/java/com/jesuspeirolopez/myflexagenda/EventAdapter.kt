@@ -18,18 +18,17 @@ class EventAdapter(private val events: List<Event>) : RecyclerView.Adapter<Event
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        // Inflar el diseño de un elemento de la cuadrícula
+
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_event, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        // Configurar las vistas con datos específicos del evento
+
         val event = events[position]
         holder.titleTextView.text = event.title
         holder.hourTextView.text = event.hour
         holder.minuteTextView.text = event.minute
-        // Por ejemplo: holder.titleTextView.text = event.title
     }
 
     override fun getItemCount(): Int {
