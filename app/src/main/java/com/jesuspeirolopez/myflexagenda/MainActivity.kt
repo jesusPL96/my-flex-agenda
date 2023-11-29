@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import com.jesuspeirolopez.myflexagenda.databinding.ActivityMainBinding
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -11,7 +13,10 @@ import java.util.Locale
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    //calendar para cambiar dias
     private val calendar: Calendar = Calendar.getInstance()
+    //event adapter para el recycler view
+    private lateinit var eventAdapter: EventAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +58,12 @@ class MainActivity : AppCompatActivity() {
 
         updateActualDayTextViews()
 
+        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+        //Les añado ejemplos con exampleEvents
+        eventAdapter = EventAdapter(exampleEvents())
+        recyclerView.layoutManager = GridLayoutManager(this, 1)
+        recyclerView.adapter = eventAdapter
+
 
     }
 
@@ -77,4 +88,15 @@ class MainActivity : AppCompatActivity() {
             yearTextView.text = newYear.toString()
         }
     }
+
+    //Para eliminar, es de prueba
+    private fun exampleEvents(): List<Event> {
+
+        return listOf(
+            Event("Sacar al perro", "Descripción", "00", "00"),
+            Event("Cita dentista", "Descripción", "23", "59"),
+
+        )
+    }
+
 }
