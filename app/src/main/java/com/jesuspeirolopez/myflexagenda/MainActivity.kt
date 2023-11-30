@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
@@ -93,8 +94,8 @@ class MainActivity : AppCompatActivity() {
     private fun exampleEvents(): List<Event> {
 
         return listOf(
-            Event("Sacar al perro", "Descripción", "00", "00"),
-            Event("Cita dentista", "Descripción", "23", "59"),
+            Event(1,"Sacar al perro", "Descripción", "", Date(), "00","00"),
+            Event(2, "Cita dentista", "Descripción", "", Date(),"23","59"),
 
         )
     }
