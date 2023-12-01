@@ -9,5 +9,6 @@ data class BirthdayMO(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val name: String,
-    val birthdayDate: Date
+    val month: Int,
+    val day: Int
 )

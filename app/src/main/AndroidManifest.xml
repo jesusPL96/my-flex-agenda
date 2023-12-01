@@ -17,7 +17,7 @@
             android:exported="false" />
         <activity
             android:name=".EventCreateActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/Theme.MyFlexAgenda"/>
         <activity
             android:name=".BirthdayEventsActivity"

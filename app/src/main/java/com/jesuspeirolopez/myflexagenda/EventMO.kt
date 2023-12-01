@@ -11,7 +11,9 @@ data class EventMO(
     val title: String,
     val description: String,
     val imagePath: String,
-    val eventDate: Date,
+    val day: Int,
+    val month: Int,
+    val year: Int,
     val startTime: String,
     val endTime: String
 )

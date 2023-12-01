@@ -20,20 +20,20 @@ class EventCreateActivity : AppCompatActivity() {
 
     private val calendar: Calendar = Calendar.getInstance()
 
-    //private lateinit var agendaDatabase: AgendaDatabase
+    private lateinit var agendaDatabase: AgendaDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEventCreateBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /*
+
         agendaDatabase = Room.databaseBuilder(
             applicationContext,
             AgendaDatabase::class.java, "agenda-database"
         ).build()
 
-         */
+
 
         binding.eventCreateBack.setOnClickListener{
             val intent = Intent(this@EventCreateActivity, MainActivity::class.java)
@@ -50,17 +50,21 @@ class EventCreateActivity : AppCompatActivity() {
             val day = binding.eventCreateDay1.text.toString().toInt()
             val month = getMonthNumber(binding.eventCreateDay3.text.toString())
             val year = binding.eventCreateYear.text.toString().toInt()
-            val eventDate = toDate(day, month, year)
 
-            val event = EventMO(title = title, description = description, startTime = startTime, endTime = endTime, eventDate = eventDate, imagePath = "")
+            val event = EventMO(title = title, description = description, startTime = startTime, endTime = endTime, day = day, month = month, year = year, imagePath = "" )
 
-            /*
+
             CoroutineScope(Dispatchers.IO).launch {
                 agendaDatabase.eventDao().insertEvent(event)
             }
-             */
+
 
             Toast.makeText(this@EventCreateActivity, "Evento guardado", Toast.LENGTH_SHORT).show()
+
+            val intent = Intent(this@EventCreateActivity, MainActivity::class.java)
+            startActivity(intent)
+
+            finish()
 
         }
 

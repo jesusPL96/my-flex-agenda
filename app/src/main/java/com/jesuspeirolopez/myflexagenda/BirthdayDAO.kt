@@ -9,11 +9,11 @@ import com.jesuspeirolopez.myflexagenda.Birthday
 @Dao
 interface BirthdayDAO {
     @Query("SELECT * FROM birthdays")
-    fun getAllBirthdays(): List<Birthday>
+    fun getAllBirthdays(): List<BirthdayMO>
 
     @Insert
-    fun insertBirthday(birthday: Birthday)
+    fun insertBirthday(birthday: BirthdayMO)
 
     @Delete
-    fun deleteBirthday(birthday: Birthday)
+    fun deleteBirthday(birthday: BirthdayMO)
 }

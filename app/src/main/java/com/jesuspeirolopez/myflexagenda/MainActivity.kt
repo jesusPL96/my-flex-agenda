@@ -94,8 +94,8 @@ class MainActivity : AppCompatActivity() {
     private fun exampleEvents(): List<Event> {
 
         return listOf(
-            Event(1,"Sacar al perro", "Descripción", "", Date(), "00","00"),
-            Event(2, "Cita dentista", "Descripción", "", Date(),"23","59"),
+            Event(1,"Sacar al perro", "Descripción", "", 1, 4,2023, "00", "00"),
+            Event(2, "Cita dentista", "Descripción", "", 1,2,2023, "23", "59"),
 
         )
     }

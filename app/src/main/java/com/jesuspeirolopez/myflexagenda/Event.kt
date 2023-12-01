@@ -7,7 +7,9 @@ data class Event(
     val title: String,
     val description: String,
     val imagePath: String,
-    val eventDate: Date,
+    val day: Int,
+    val month: Int,
+    val year: Int,
     val hour: String,
     val minute: String
 )
