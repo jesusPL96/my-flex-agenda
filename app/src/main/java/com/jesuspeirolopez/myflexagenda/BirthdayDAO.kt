@@ -1,4 +1,4 @@
-package com.jesuspeirolopez.myflexagenda.DAO
+package com.jesuspeirolopez.myflexagenda
 
 import androidx.room.Dao
 import androidx.room.Delete
