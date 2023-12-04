@@ -6,6 +6,10 @@ import com.jesuspeirolopez.myflexagenda.databinding.ActivityMainBinding
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -19,10 +23,18 @@ class MainActivity : AppCompatActivity() {
     //event adapter para el recycler view
     private lateinit var eventAdapter: EventAdapter
 
+    private lateinit var agendaDatabase: AgendaDatabase
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        agendaDatabase = Room.databaseBuilder(
+            applicationContext,
+            AgendaDatabase::class.java, "agenda-database"
+        ).build()
 
         binding.actualYear.setOnClickListener {
 
@@ -61,7 +73,9 @@ class MainActivity : AppCompatActivity() {
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         //Les añado ejemplos con exampleEvents
-        eventAdapter = EventAdapter(exampleEvents())
+
+        eventAdapter = EventAdapter(convertEventMOListToEventList(getEventsByCurrentDate()))
+        printEventMOList(getEventsByCurrentDate())
         recyclerView.layoutManager = GridLayoutManager(this, 1)
         recyclerView.adapter = eventAdapter
 
@@ -99,5 +113,63 @@ class MainActivity : AppCompatActivity() {
 
         )
     }
+
+    private fun getEventsByCurrentDate(): List<EventMO> {
+
+        var eventsList: List<EventMO> = emptyList()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            eventsList = agendaDatabase.eventDao().getEventsByDate(
+                binding.actualDay.text.toString().toInt(),
+                getMonthNumber(binding.actualDay3.text.toString()),
+                binding.actualYear.text.toString().toInt()
+            )
+        }
+
+        return eventsList
+
+    }
+
+    fun getMonthNumber(nombreMes: String): Int {
+        return when (nombreMes.lowercase()) {
+            "enero" -> 1
+            "febrero" -> 2
+            "marzo" -> 3
+            "abril" -> 4
+            "mayo" -> 5
+            "junio" -> 6
+            "julio" -> 7
+            "agosto" -> 8
+            "septiembre" -> 9
+            "octubre" -> 10
+            "noviembre" -> 11
+            "diciembre" -> 12
+            else -> throw IllegalArgumentException("Nombre del mes no válido: $nombreMes")
+        }
+    }
+
+    fun convertEventMOListToEventList(eventMOList: List<EventMO>): List<Event> {
+        return eventMOList.map { eventMO ->
+            Event(
+                id = eventMO.id.toInt(), // Convertir Long a Int si es necesario
+                title = eventMO.title,
+                description = eventMO.description,
+                imagePath = eventMO.imagePath,
+                day = eventMO.day,
+                month = eventMO.month,
+                year = eventMO.year,
+                startTime = eventMO.startTime,
+                endTime = eventMO.endTime
+            )
+        }
+    }
+
+    fun printEventMOList(eventMOList: List<EventMO>) {
+        for (eventMO in eventMOList) {
+            println("EventMO ID: ${eventMO.id}")
+            println("Title: ${eventMO.title}")
+        }
+    }
+
 
 }

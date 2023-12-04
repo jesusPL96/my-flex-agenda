@@ -27,8 +27,9 @@ class EventAdapter(private val events: List<Event>) : RecyclerView.Adapter<Event
 
         val event = events[position]
         holder.titleTextView.text = event.title
-        holder.hourTextView.text = event.hour
-        holder.minuteTextView.text = event.minute
+        //En verdad solo necesito el startTime que es hour
+        holder.hourTextView.text = event.startTime
+        //holder.minuteTextView.text = event.endTime
     }
 
     override fun getItemCount(): Int {

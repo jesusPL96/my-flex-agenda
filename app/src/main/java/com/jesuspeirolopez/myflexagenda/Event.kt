@@ -10,6 +10,6 @@ data class Event(
     val day: Int,
     val month: Int,
     val year: Int,
-    val hour: String,
-    val minute: String
+    val startTime: String,
+    val endTime: String
 )
