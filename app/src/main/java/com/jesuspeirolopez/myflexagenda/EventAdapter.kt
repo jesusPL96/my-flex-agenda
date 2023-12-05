@@ -5,9 +5,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 
-class EventAdapter(private val events: List<Event>) : RecyclerView.Adapter<EventAdapter.ViewHolder>() {
+class EventAdapter(private val events: LiveData<List<EventMO>>) : RecyclerView.Adapter<EventAdapter.ViewHolder>() {
+
+
+    //Esto no es óptimo ni seguro pero funciona de alguna forma
+    init {
+        events.observeForever { notifyDataSetChanged() }
+    }
+
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -24,15 +32,15 @@ class EventAdapter(private val events: List<Event>) : RecyclerView.Adapter<Event
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-        val event = events[position]
-        holder.titleTextView.text = event.title
-        //En verdad solo necesito el startTime que es hour
-        holder.hourTextView.text = event.startTime
-        //holder.minuteTextView.text = event.endTime
+        val event = events.value?.get(position)
+        event?.let {
+            holder.titleTextView.text = it.title
+            // En verdad solo necesito el startTime que es hour
+            holder.hourTextView.text = it.startTime
+        }
     }
 
     override fun getItemCount(): Int {
-        return events.size
+        return events.value?.size ?: 0
     }
 }

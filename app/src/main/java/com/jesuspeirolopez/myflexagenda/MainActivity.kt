@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.jesuspeirolopez.myflexagenda.databinding.ActivityMainBinding
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
@@ -24,6 +25,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var eventAdapter: EventAdapter
 
     private lateinit var agendaDatabase: AgendaDatabase
+
+    private lateinit var viewModel: EventViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,11 +74,13 @@ class MainActivity : AppCompatActivity() {
 
         updateActualDayTextViews()
 
+        viewModel = ViewModelProvider(this).get(EventViewModel::class.java)
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         //Les añado ejemplos con exampleEvents
 
-        eventAdapter = EventAdapter(convertEventMOListToEventList(getEventsByCurrentDate()))
-        printEventMOList(getEventsByCurrentDate())
+        eventAdapter = EventAdapter(viewModel.getEventsByCurrentDate(binding.actualDay.text.toString().toInt(),
+            getMonthNumber(binding.actualDay3.text.toString()),
+            binding.actualYear.text.toString().toInt()))
         recyclerView.layoutManager = GridLayoutManager(this, 1)
         recyclerView.adapter = eventAdapter
 
