@@ -72,6 +72,12 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        binding.dayWithEventAfter.setOnClickListener {
+
+            deleteAllEvents()
+
+        }
+
         updateActualDayTextViews()
 
         viewModel = ViewModelProvider(this).get(EventViewModel::class.java)
@@ -174,6 +180,14 @@ class MainActivity : AppCompatActivity() {
             println("EventMO ID: ${eventMO.id}")
             println("Title: ${eventMO.title}")
         }
+    }
+
+    fun deleteAllEvents() {
+
+        CoroutineScope(Dispatchers.IO).launch {
+            agendaDatabase.eventDao().deleteAllEvents()
+        }
+
     }
 
 

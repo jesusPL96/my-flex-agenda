@@ -37,6 +37,7 @@ class EventAdapter(private val events: LiveData<List<EventMO>>) : RecyclerView.A
             holder.titleTextView.text = it.title
             // En verdad solo necesito el startTime que es hour
             holder.hourTextView.text = it.startTime
+            holder.minuteTextView.text= it.id.toString()
         }
     }
 
