@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
 
         eventAdapter = EventAdapter(viewModel.getEventsByCurrentDate(binding.actualDay.text.toString().toInt(),
             getMonthNumber(binding.actualDay3.text.toString()),
-            binding.actualYear.text.toString().toInt()))
+            binding.actualYear.text.toString().toInt()), viewModel)
         recyclerView.layoutManager = GridLayoutManager(this, 1)
         recyclerView.adapter = eventAdapter
 

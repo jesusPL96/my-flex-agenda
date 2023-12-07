@@ -20,6 +20,9 @@ interface EventDAO {
     @Query("DELETE FROM events")
     fun deleteAllEvents()
 
+    @Query("DELETE FROM events WHERE id = :id")
+    fun deleteById(id: Long)
+
     @Query("SELECT * FROM events WHERE day = :day AND month = :month AND year = :year")
     fun getEventsByDate(day: Int, month: Int, year: Int): List<EventMO>
 

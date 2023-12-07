@@ -27,4 +27,10 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
         }
         return eventsLiveData
     }
+
+    fun deleteEventById(eventId: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            agendaDatabase.eventDao().deleteById(eventId)
+        }
+    }
 }
