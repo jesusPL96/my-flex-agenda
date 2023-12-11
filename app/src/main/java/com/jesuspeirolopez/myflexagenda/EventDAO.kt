@@ -11,6 +11,9 @@ interface EventDAO {
     @Query("SELECT * FROM events")
     fun getAllEvents(): List<EventMO>
 
+    @Query("SELECT * FROM events WHERE id = :id")
+    fun getById(id: Long): EventMO
+
     @Insert
     fun insertEvent(event: EventMO)
 

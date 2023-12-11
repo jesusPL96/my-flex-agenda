@@ -1,5 +1,6 @@
 package com.jesuspeirolopez.myflexagenda
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -59,6 +60,14 @@ class EventAdapter(private val events: LiveData<List<EventMO>>, private val even
                     notifyItemRemoved(position)
                 }
             }
+
+            holder.itemView.setOnClickListener{
+                val context = holder.itemView.context
+                val intent = Intent(context, EventInfoActivity::class.java)
+                intent.putExtra("eventId", event.id)
+                context.startActivity(intent)
+            }
+
         }
     }
 

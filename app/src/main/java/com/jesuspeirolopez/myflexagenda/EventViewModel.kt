@@ -33,4 +33,10 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
             agendaDatabase.eventDao().deleteById(eventId)
         }
     }
+
+    suspend fun getEventById(eventId: Long): EventMO {
+        return withContext(Dispatchers.IO) {
+            agendaDatabase.eventDao().getById(eventId)
+        }
+    }
 }
