@@ -28,6 +28,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: EventViewModel
 
+    private lateinit var viewBirthdayModel: BirthdayViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +60,11 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        binding.birthdayCheck.setOnClickListener{
+            val intent = Intent(this@MainActivity, BirthdayEventsActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.dayAfter.setOnClickListener {
 
             calendar.add(Calendar.DAY_OF_MONTH, 1)
@@ -78,17 +85,38 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        //Days on texts views
         updateActualDayTextViews()
 
+        //Events
         viewModel = ViewModelProvider(this).get(EventViewModel::class.java)
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
-        //Les añado ejemplos con exampleEvents
 
         eventAdapter = EventAdapter(viewModel.getEventsByCurrentDate(binding.actualDay.text.toString().toInt(),
             getMonthNumber(binding.actualDay3.text.toString()),
             binding.actualYear.text.toString().toInt()), viewModel)
         recyclerView.layoutManager = GridLayoutManager(this, 1)
         recyclerView.adapter = eventAdapter
+
+        //Birthday
+        viewBirthdayModel = ViewModelProvider(this).get(BirthdayViewModel::class.java)
+
+        viewBirthdayModel.getBirthdaysByDate(
+            binding.actualDay.text.toString().toInt(),
+            getMonthNumber(binding.actualDay3.text.toString())
+        ).observe(this) { birthdayList ->
+
+            var birthdayString = ""
+
+            for (i in birthdayList.indices) {
+                birthdayString += birthdayList[i].name
+                if (i != birthdayList.size - 1) {
+                    birthdayString += ", "
+                }
+            }
+
+            binding.birthdayName.text = birthdayString
+        }
 
 
     }
