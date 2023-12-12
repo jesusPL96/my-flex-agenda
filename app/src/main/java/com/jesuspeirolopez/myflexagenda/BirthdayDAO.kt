@@ -17,6 +17,9 @@ interface BirthdayDAO {
     @Delete
     fun deleteBirthday(birthday: BirthdayMO)
 
+    @Query("DELETE FROM birthdays WHERE id = :id")
+    fun deleteBirthdayById(id: Long)
+
     @Query("SELECT * FROM birthdays WHERE day = :day AND month = :month")
     fun getBirthdaysByDate(day: Int, month: Int): List<BirthdayMO>
 }

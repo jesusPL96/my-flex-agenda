@@ -21,7 +21,7 @@
         app:layout_constraintVertical_bias="0.139" />
 
     <EditText
-        android:id="@+id/editTextText"
+        android:id="@+id/birthdayCreateName"
         android:layout_width="214dp"
         android:layout_height="48dp"
         android:ems="10"
@@ -60,7 +60,7 @@
         app:layout_constraintVertical_bias="0.443" />
 
     <DatePicker
-        android:id="@+id/datePicker"
+        android:id="@+id/dayAndMonthPicker"
         android:layout_width="354dp"
         android:layout_height="154dp"
         android:calendarViewShown="false"
