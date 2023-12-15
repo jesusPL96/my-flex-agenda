@@ -44,5 +44,11 @@ class BirthdayViewModel(application: Application) : AndroidViewModel(application
         return birthdaysLiveData
     }
 
+    fun deleteBirthdayById(birthdayId: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            agendaDatabase.birthdayDao().deleteBirthdayById(birthdayId)
+        }
+    }
+
 
 }

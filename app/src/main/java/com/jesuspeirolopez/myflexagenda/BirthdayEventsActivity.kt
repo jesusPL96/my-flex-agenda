@@ -22,7 +22,7 @@ class BirthdayEventsActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(BirthdayViewModel::class.java)
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView2)
-        birthdayAdapter = BirthdayAdapter(viewModel.getAllBirthdays())
+        birthdayAdapter = BirthdayAdapter(viewModel.getAllBirthdays(), viewModel)
         recyclerView.layoutManager = GridLayoutManager(this, 1)
         recyclerView.adapter = birthdayAdapter
 
