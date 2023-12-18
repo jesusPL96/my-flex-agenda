@@ -13,6 +13,9 @@
         android:theme="@style/Theme.MyFlexAgenda"
         tools:targetApi="31">
         <activity
+            android:name=".MonthCalendarActivity"
+            android:exported="false" />
+        <activity
             android:name=".BirthdayCreate"
             android:exported="false" />
         <activity
