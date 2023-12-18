@@ -44,8 +44,10 @@ class YearCalendarActivity : AppCompatActivity() {
         for ((index, button) in monthButtons.withIndex()) {
             button.setOnClickListener {
                 val monthName = getMonthName(index + 1)
+                val yearNumber = binding.yearCalendarNumber.text.toString()
                 val intent = Intent(this, MonthCalendarActivity::class.java)
                 intent.putExtra("monthName", monthName)
+                intent.putExtra("yearNumber", yearNumber)
                 startActivity(intent)
             }
         }
