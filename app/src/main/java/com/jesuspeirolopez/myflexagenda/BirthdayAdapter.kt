@@ -15,6 +15,11 @@ import kotlinx.coroutines.launch
 
 class BirthdayAdapter(private val birthdays: LiveData<List<BirthdayMO>>, private val birthdayViewModel: BirthdayViewModel) : RecyclerView.Adapter<BirthdayAdapter.ViewHolder>() {
 
+
+    init {
+        birthdays.observeForever { notifyDataSetChanged() }
+    }
+
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val birthdayName: TextView = itemView.findViewById(R.id.birthdayName)
