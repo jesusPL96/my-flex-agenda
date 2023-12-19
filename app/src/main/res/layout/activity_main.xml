@@ -28,20 +28,20 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.811"
+        app:layout_constraintHorizontal_bias="0.848"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.13" />
 
     <Button
         android:id="@+id/dayBefore"
-        android:layout_width="48dp"
-        android:layout_height="56dp"
+        android:layout_width="49dp"
+        android:layout_height="55dp"
         android:text="Izq"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.188"
+        app:layout_constraintHorizontal_bias="0.154"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.13" />
@@ -54,7 +54,7 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.322"
+        app:layout_constraintHorizontal_bias="0.291"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.143" />
@@ -67,28 +67,28 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.419"
+        app:layout_constraintHorizontal_bias="0.372"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.143" />
 
     <TextView
         android:id="@+id/actualDay3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Febrero"
+        android:layout_width="115dp"
+        android:layout_height="27dp"
+        android:text="febrero"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.603"
+        app:layout_constraintHorizontal_bias="0.625"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.143" />
 
     <Button
         android:id="@+id/dayWithEventBefore"
-        android:layout_width="62dp"
-        android:layout_height="62dp"
+        android:layout_width="50dp"
+        android:layout_height="64dp"
         android:text="D.Izq"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -100,8 +100,8 @@
 
     <Button
         android:id="@+id/dayWithEventAfter"
-        android:layout_width="59dp"
-        android:layout_height="61dp"
+        android:layout_width="52dp"
+        android:layout_height="55dp"
         android:text="D.Der"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"

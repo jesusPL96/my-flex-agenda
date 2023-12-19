@@ -86,8 +86,32 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        //Days on texts views
-        updateActualDayTextViews()
+        //Compruebo si viene un intent con extra o no para los valores del día
+        if(intent.hasExtra("day")){
+
+            //Vienen como String?, es decir, no como String
+            val yearString: String? = intent.getStringExtra("year")
+            val monthString: String? = intent.getStringExtra("month")
+            val dayString: String? = intent.getStringExtra("day")
+
+            //Los arreglo para que sean enteros y string normales comprobando el nulo
+            val year: Int = yearString?.toIntOrNull() ?: 0
+            val month: String = monthString ?: "enero"
+            val day: Int = dayString?.toIntOrNull() ?: 0
+
+            //Pinto los días correctos
+            binding.actualYear.text = yearString
+            binding.actualDay3.text = monthString
+            binding.actualDay.text = dayString
+
+            //Pongo los valores correctos en calendar
+            calendar.set(Calendar.YEAR, year)
+            calendar.set(Calendar.MONTH, getMonthNumber(month)-1)
+            calendar.set(Calendar.DAY_OF_MONTH, day)
+
+        } else {
+            updateActualDayTextViews()
+        }
 
         //Events
         viewModel = ViewModelProvider(this).get(EventViewModel::class.java)

@@ -8,7 +8,7 @@ import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.Toast
 
-class DayAdapter(private val context: Context, private val days: List<String>) : BaseAdapter() {
+class DayAdapter(private val context: Context, private val days: List<String>, private val month: String, private val year: String) : BaseAdapter() {
 
     override fun getCount(): Int = days.size
 
@@ -21,7 +21,11 @@ class DayAdapter(private val context: Context, private val days: List<String>) :
         button.text = days[position]
         button.setOnClickListener {
 
-            //Poner el que hacer con el boton del dia
+            val intent = Intent(context, MainActivity::class.java)
+            intent.putExtra("day", days[position])
+            intent.putExtra("month", month)
+            intent.putExtra("year", year)
+            context.startActivity(intent)
 
         }
         return button

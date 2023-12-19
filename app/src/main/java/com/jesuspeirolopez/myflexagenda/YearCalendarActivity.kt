@@ -57,7 +57,7 @@ class YearCalendarActivity : AppCompatActivity() {
     }
 
     private fun getMonthName(monthNumber: Int): String {
-        val monthNames = arrayOf("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre")
+        val monthNames = arrayOf("enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre")
         return monthNames[monthNumber - 1]
     }
 

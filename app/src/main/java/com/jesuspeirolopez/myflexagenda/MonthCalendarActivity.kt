@@ -21,7 +21,7 @@ class MonthCalendarActivity : AppCompatActivity() {
             finish()
         }
 
-        val monthName = intent.getStringExtra("monthName") ?: "Enero"
+        val monthName = intent.getStringExtra("monthName") ?: "enero"
         val yearNumber = intent.getStringExtra("yearNumber") ?: "2023"
 
 
@@ -33,7 +33,7 @@ class MonthCalendarActivity : AppCompatActivity() {
         val daysOfMonth = (1..daysInMonth).map { it.toString() }
 
 
-        val adapter = DayAdapter(this, daysOfMonth)
+        val adapter = DayAdapter(this, daysOfMonth, monthName, yearNumber)
         binding.gridView.adapter = adapter
 
 
