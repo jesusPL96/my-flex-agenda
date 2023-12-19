@@ -50,7 +50,14 @@ class MainActivity : AppCompatActivity() {
 
         binding.addButton.setOnClickListener {
 
+            val dayNumber = binding.actualDay.text.toString()
+            val monthName = binding.actualDay3.text.toString()
+            val yearNumber = binding.actualYear.text.toString()
+
             val intent = Intent(this@MainActivity, EventCreateActivity::class.java)
+            intent.putExtra("day", dayNumber)
+            intent.putExtra("month", monthName)
+            intent.putExtra("year", yearNumber)
             startActivity(intent)
         }
 

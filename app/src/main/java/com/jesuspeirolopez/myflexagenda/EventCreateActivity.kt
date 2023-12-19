@@ -68,30 +68,11 @@ class EventCreateActivity : AppCompatActivity() {
 
         }
 
-        updateActualDayTextViews()
+        binding.eventCreateDay1.text = intent.getStringExtra("day")
+        binding.eventCreateDay3.text = intent.getStringExtra("month")
+        binding.eventCreateYear.text = intent.getStringExtra("year")
 
-    }
 
-    private fun updateActualDayTextViews() {
-
-        val dayFormat = SimpleDateFormat("dd", Locale.getDefault())
-        val formattedDay = dayFormat.format(calendar.time)
-        binding.eventCreateDay1.text = formattedDay
-
-        val monthFormat = SimpleDateFormat("MMMM", Locale("es", "ES"))
-        val formattedMonth = monthFormat.format(calendar.time)
-        binding.eventCreateDay3.text = formattedMonth
-
-        val newYear = calendar.get(Calendar.YEAR)
-        runOnUiThread {
-
-            binding.eventCreateYear.text = newYear.toString()
-        }
-        val yearTextView = binding.eventCreateYear
-
-        if (newYear != calendar.get(Calendar.YEAR)) {
-            yearTextView.text = newYear.toString()
-        }
     }
 
     fun getMonthNumber(nombreMes: String): Int {
