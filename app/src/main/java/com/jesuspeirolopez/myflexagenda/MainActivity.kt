@@ -24,11 +24,11 @@ class MainActivity : AppCompatActivity() {
     private val calendar: Calendar = Calendar.getInstance()
     //event adapter para el recycler view
     private lateinit var eventAdapter: EventAdapter
-
+    //la database
     private lateinit var agendaDatabase: AgendaDatabase
-
+    //el event view Model
     private lateinit var viewModel: EventViewModel
-
+    //el birthday view model
     private lateinit var viewBirthdayModel: BirthdayViewModel
 
 
