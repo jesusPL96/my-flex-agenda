@@ -165,36 +165,6 @@
         app:layout_constraintVertical_bias="0.943" />
 
     <EditText
-        android:id="@+id/time1"
-        android:layout_width="115dp"
-        android:layout_height="48dp"
-        android:ems="10"
-        android:hint="10:00"
-        android:inputType="time"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.375"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.234" />
-
-    <EditText
-        android:id="@+id/time2"
-        android:layout_width="115dp"
-        android:layout_height="48dp"
-        android:ems="10"
-        android:hint="11:00"
-        android:inputType="time"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.847"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.234" />
-
-    <EditText
         android:id="@+id/eventCreateTextTime1"
         android:layout_width="110dp"
         android:layout_height="48dp"

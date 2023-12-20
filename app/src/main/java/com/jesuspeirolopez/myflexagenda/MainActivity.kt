@@ -20,14 +20,19 @@ import java.util.Locale
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
     //calendar para cambiar dias
     private val calendar: Calendar = Calendar.getInstance()
+
     //event adapter para el recycler view
     private lateinit var eventAdapter: EventAdapter
+
     //la database
     private lateinit var agendaDatabase: AgendaDatabase
+
     //el event view Model
     private lateinit var viewModel: EventViewModel
+
     //el birthday view model
     private lateinit var viewBirthdayModel: BirthdayViewModel
 
@@ -61,7 +66,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.birthdayCheck.setOnClickListener{
+        binding.birthdayCheck.setOnClickListener {
             val intent = Intent(this@MainActivity, BirthdayEventsActivity::class.java)
             startActivity(intent)
         }
@@ -87,7 +92,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         //Compruebo si viene un intent con extra o no para los valores del día
-        if(intent.hasExtra("day")){
+        if (intent.hasExtra("day")) {
 
             //Vienen como String?, es decir, no como String
             val yearString: String? = intent.getStringExtra("year")
@@ -106,7 +111,7 @@ class MainActivity : AppCompatActivity() {
 
             //Pongo los valores correctos en calendar
             calendar.set(Calendar.YEAR, year)
-            calendar.set(Calendar.MONTH, getMonthNumber(month)-1)
+            calendar.set(Calendar.MONTH, getMonthNumber(month) - 1)
             calendar.set(Calendar.DAY_OF_MONTH, day)
 
         } else {
@@ -117,9 +122,13 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(EventViewModel::class.java)
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
 
-        eventAdapter = EventAdapter(viewModel.getEventsByCurrentDate(binding.actualDay.text.toString().toInt(),
-            getMonthNumber(binding.actualDay3.text.toString()),
-            binding.actualYear.text.toString().toInt()), viewModel)
+        eventAdapter = EventAdapter(
+            viewModel.getEventsByCurrentDate(
+                binding.actualDay.text.toString().toInt(),
+                getMonthNumber(binding.actualDay3.text.toString()),
+                binding.actualYear.text.toString().toInt()
+            ), viewModel
+        )
         recyclerView.layoutManager = GridLayoutManager(this, 1)
         recyclerView.adapter = eventAdapter
 
@@ -141,7 +150,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             Log.d("Birthdays: ", birthdayString)
-            if(birthdayString == ""){
+            if (birthdayString == "") {
                 birthdayString = "¡No hay cumpleaños!"
             }
             binding.birthdayName.text = birthdayString
@@ -176,10 +185,10 @@ class MainActivity : AppCompatActivity() {
     private fun exampleEvents(): List<Event> {
 
         return listOf(
-            Event(1,"Sacar al perro", "Descripción", "", 1, 4,2023, "00", "00"),
-            Event(2, "Cita dentista", "Descripción", "", 1,2,2023, "23", "59"),
+            Event(1, "Sacar al perro", "Descripción", "", 1, 4, 2023, "00", "00"),
+            Event(2, "Cita dentista", "Descripción", "", 1, 2, 2023, "23", "59"),
 
-        )
+            )
     }
 
     private fun getEventsByCurrentDate(): List<EventMO> {

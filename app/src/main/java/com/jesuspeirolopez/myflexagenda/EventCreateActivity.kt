@@ -3,6 +3,9 @@ package com.jesuspeirolopez.myflexagenda
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.InputFilter
+import android.text.TextWatcher
 import android.widget.Toast
 import androidx.room.Room
 import com.jesuspeirolopez.myflexagenda.databinding.ActivityEventCreateBinding
@@ -33,9 +36,11 @@ class EventCreateActivity : AppCompatActivity() {
             AgendaDatabase::class.java, "agenda-database"
         ).build()
 
+        binding.eventCreateTextTime1.filters = arrayOf(InputFilter.LengthFilter(5))
+        binding.eventCreateTextTime2.filters = arrayOf(InputFilter.LengthFilter(5))
 
 
-        binding.eventCreateBack.setOnClickListener{
+        binding.eventCreateBack.setOnClickListener {
             val intent = Intent(this@EventCreateActivity, MainActivity::class.java)
             startActivity(intent)
 
@@ -51,17 +56,41 @@ class EventCreateActivity : AppCompatActivity() {
             val month = getMonthNumber(binding.eventCreateDay3.text.toString())
             val year = binding.eventCreateYear.text.toString().toInt()
 
-            val event = EventMO(title = title, description = description, startTime = startTime, endTime = endTime, day = day, month = month, year = year, imagePath = "" )
+            val event = EventMO(
+                title = title,
+                description = description,
+                startTime = startTime,
+                endTime = endTime,
+                day = day,
+                month = month,
+                year = year,
+                imagePath = ""
+            )
 
-            if(startTime==""||endTime==""||title==""){
-                Toast.makeText(this@EventCreateActivity, "Error: No dejes campos vacíos", Toast.LENGTH_SHORT).show()
+            if (startTime == "" || endTime == "" || title == "") {
+                Toast.makeText(
+                    this@EventCreateActivity,
+                    "Error: No dejes campos vacíos",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else if (
+                !binding.eventCreateTextTime1.text.matches(Regex("^([01]?[0-9]|2[0-3]):[0-5][0-9]\$"))
+                || !binding.eventCreateTextTime2.text.matches(Regex("^([01]?[0-9]|2[0-3]):[0-5][0-9]\$"))
+            ) {
+                Toast.makeText(
+                    this@EventCreateActivity,
+                    "Error: Formato de hora incorrecto",
+                    Toast.LENGTH_SHORT
+                ).show()
+
             } else {
                 CoroutineScope(Dispatchers.IO).launch {
                     agendaDatabase.eventDao().insertEvent(event)
                 }
 
 
-                Toast.makeText(this@EventCreateActivity, "Evento guardado", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@EventCreateActivity, "Evento guardado", Toast.LENGTH_SHORT)
+                    .show()
 
                 val intent = Intent(this@EventCreateActivity, MainActivity::class.java)
                 startActivity(intent)
@@ -97,6 +126,7 @@ class EventCreateActivity : AppCompatActivity() {
         }
     }
 
+    /*
     fun toDate(dia: Int, mes: Int, ano: Int): Date {
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.YEAR, ano)
@@ -104,5 +134,6 @@ class EventCreateActivity : AppCompatActivity() {
         calendar.set(Calendar.DAY_OF_MONTH, dia)
         return calendar.time
     }
+     */
 
 }
