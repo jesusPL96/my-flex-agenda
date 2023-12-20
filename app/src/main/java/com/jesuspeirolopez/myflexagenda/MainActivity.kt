@@ -61,13 +61,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.checkEvent.setOnClickListener{
-
-            val intent = Intent(this@MainActivity, EventInfoActivity::class.java)
-            startActivity(intent)
-
-        }
-
         binding.birthdayCheck.setOnClickListener{
             val intent = Intent(this@MainActivity, BirthdayEventsActivity::class.java)
             startActivity(intent)
@@ -148,6 +141,9 @@ class MainActivity : AppCompatActivity() {
             }
 
             Log.d("Birthdays: ", birthdayString)
+            if(birthdayString == ""){
+                birthdayString = "¡No hay cumpleaños!"
+            }
             binding.birthdayName.text = birthdayString
         }
 

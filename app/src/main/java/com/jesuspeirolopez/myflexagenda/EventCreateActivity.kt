@@ -45,26 +45,30 @@ class EventCreateActivity : AppCompatActivity() {
         binding.addEventButton.setOnClickListener {
             val title = binding.eventTitleInsert.text.toString()
             val description = binding.eventDescriptionInsert.text.toString()
-            val startTime = binding.time1.text.toString()
-            val endTime = binding.time2.text.toString()
+            val startTime = binding.eventCreateTextTime1.text.toString()
+            val endTime = binding.eventCreateTextTime2.text.toString()
             val day = binding.eventCreateDay1.text.toString().toInt()
             val month = getMonthNumber(binding.eventCreateDay3.text.toString())
             val year = binding.eventCreateYear.text.toString().toInt()
 
             val event = EventMO(title = title, description = description, startTime = startTime, endTime = endTime, day = day, month = month, year = year, imagePath = "" )
 
+            if(startTime==""||endTime==""||title==""){
+                Toast.makeText(this@EventCreateActivity, "Error: No dejes campos vacíos", Toast.LENGTH_SHORT).show()
+            } else {
+                CoroutineScope(Dispatchers.IO).launch {
+                    agendaDatabase.eventDao().insertEvent(event)
+                }
 
-            CoroutineScope(Dispatchers.IO).launch {
-                agendaDatabase.eventDao().insertEvent(event)
+
+                Toast.makeText(this@EventCreateActivity, "Evento guardado", Toast.LENGTH_SHORT).show()
+
+                val intent = Intent(this@EventCreateActivity, MainActivity::class.java)
+                startActivity(intent)
+
+                finish()
             }
 
-
-            Toast.makeText(this@EventCreateActivity, "Evento guardado", Toast.LENGTH_SHORT).show()
-
-            val intent = Intent(this@EventCreateActivity, MainActivity::class.java)
-            startActivity(intent)
-
-            finish()
 
         }
 
