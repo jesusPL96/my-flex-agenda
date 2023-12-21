@@ -73,8 +73,46 @@ class MainActivity : AppCompatActivity() {
 
         binding.dayAfter.setOnClickListener {
 
+            //Events
             calendar.add(Calendar.DAY_OF_MONTH, 1)
             updateActualDayTextViews()
+            viewModel = ViewModelProvider(this).get(EventViewModel::class.java)
+            val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+
+            eventAdapter = EventAdapter(
+                viewModel.getEventsByCurrentDate(
+                    binding.actualDay.text.toString().toInt(),
+                    getMonthNumber(binding.actualDay3.text.toString()),
+                    binding.actualYear.text.toString().toInt()
+                ), viewModel
+            )
+            recyclerView.layoutManager = GridLayoutManager(this, 1)
+            recyclerView.adapter = eventAdapter
+
+            //Birthdays
+            viewBirthdayModel = ViewModelProvider(this).get(BirthdayViewModel::class.java)
+
+            viewBirthdayModel.getBirthdaysByDate(
+                binding.actualDay.text.toString().toInt(),
+                getMonthNumber(binding.actualDay3.text.toString())
+            ).observe(this) { birthdayList ->
+
+                var birthdayString = ""
+
+                for (i in birthdayList.indices) {
+                    birthdayString += birthdayList[i].name
+                    if (i != birthdayList.size - 1) {
+                        birthdayString += ", "
+                    }
+                }
+
+                Log.d("Birthdays: ", birthdayString)
+                if (birthdayString == "") {
+                    birthdayString = "¡No hay cumpleaños!"
+                }
+                binding.birthdayName.text = birthdayString
+            }
+
 
         }
 
@@ -82,6 +120,43 @@ class MainActivity : AppCompatActivity() {
 
             calendar.add(Calendar.DAY_OF_MONTH, -1)
             updateActualDayTextViews()
+            //Events
+            viewModel = ViewModelProvider(this).get(EventViewModel::class.java)
+            val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+
+            eventAdapter = EventAdapter(
+                viewModel.getEventsByCurrentDate(
+                    binding.actualDay.text.toString().toInt(),
+                    getMonthNumber(binding.actualDay3.text.toString()),
+                    binding.actualYear.text.toString().toInt()
+                ), viewModel
+            )
+            recyclerView.layoutManager = GridLayoutManager(this, 1)
+            recyclerView.adapter = eventAdapter
+
+            //Birthday
+            viewBirthdayModel = ViewModelProvider(this).get(BirthdayViewModel::class.java)
+
+            viewBirthdayModel.getBirthdaysByDate(
+                binding.actualDay.text.toString().toInt(),
+                getMonthNumber(binding.actualDay3.text.toString())
+            ).observe(this) { birthdayList ->
+
+                var birthdayString = ""
+
+                for (i in birthdayList.indices) {
+                    birthdayString += birthdayList[i].name
+                    if (i != birthdayList.size - 1) {
+                        birthdayString += ", "
+                    }
+                }
+
+                Log.d("Birthdays: ", birthdayString)
+                if (birthdayString == "") {
+                    birthdayString = "¡No hay cumpleaños!"
+                }
+                binding.birthdayName.text = birthdayString
+            }
 
         }
 

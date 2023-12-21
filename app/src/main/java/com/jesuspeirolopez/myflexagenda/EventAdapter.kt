@@ -42,7 +42,7 @@ class EventAdapter(private val events: LiveData<List<EventMO>>, private val even
         val event = events.value?.get(position)
         event?.let {
             holder.titleTextView.text = it.title
-            // En verdad solo necesito el startTime que es hour
+
             holder.hourTextView.text = it.startTime
             //Seguramente deje el minuto como id oculta
             holder.minuteTextView.text= it.id.toString()
@@ -57,6 +57,7 @@ class EventAdapter(private val events: LiveData<List<EventMO>>, private val even
                 GlobalScope.launch(Dispatchers.Main) {
                     notifyItemRemoved(position)
                 }
+
             }
 
             holder.itemView.setOnClickListener{
