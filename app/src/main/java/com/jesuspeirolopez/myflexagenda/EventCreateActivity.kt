@@ -3,25 +3,18 @@ package com.jesuspeirolopez.myflexagenda
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
 import android.text.InputFilter
-import android.text.TextWatcher
 import android.widget.Toast
 import androidx.room.Room
 import com.jesuspeirolopez.myflexagenda.databinding.ActivityEventCreateBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
-import java.util.Locale
 
 class EventCreateActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEventCreateBinding
-
-    private val calendar: Calendar = Calendar.getInstance()
 
     private lateinit var agendaDatabase: AgendaDatabase
 
@@ -84,20 +77,40 @@ class EventCreateActivity : AppCompatActivity() {
                 ).show()
 
             } else {
-                CoroutineScope(Dispatchers.IO).launch {
-                    agendaDatabase.eventDao().insertEvent(event)
+
+                //Esto divide el start time y el endtime en dos partes, la de antes del : y la de después
+                val startTimeParts = startTime.split(":")
+                val endTimeParts = endTime.split(":")
+
+                //Guardamos en hora y minuto cada uno para compararlos
+                val startHour = startTimeParts[0].toInt()
+                val startMinute = startTimeParts[1].toInt()
+
+                val endHour = endTimeParts[0].toInt()
+                val endMinute = endTimeParts[1].toInt()
+
+                if (startHour > endHour || (startHour == endHour && startMinute > endMinute)) {
+                    Toast.makeText(
+                        this@EventCreateActivity,
+                        "Error: La hora final debe ser posterior a la inicial",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        agendaDatabase.eventDao().insertEvent(event)
+                    }
+
+
+                    Toast.makeText(this@EventCreateActivity, "Evento guardado", Toast.LENGTH_SHORT)
+                        .show()
+
+                    val intent = Intent(this@EventCreateActivity, MainActivity::class.java)
+                    startActivity(intent)
+
+                    finish()
                 }
 
-
-                Toast.makeText(this@EventCreateActivity, "Evento guardado", Toast.LENGTH_SHORT)
-                    .show()
-
-                val intent = Intent(this@EventCreateActivity, MainActivity::class.java)
-                startActivity(intent)
-
-                finish()
             }
-
 
         }
 
@@ -126,14 +139,5 @@ class EventCreateActivity : AppCompatActivity() {
         }
     }
 
-    /*
-    fun toDate(dia: Int, mes: Int, ano: Int): Date {
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.YEAR, ano)
-        calendar.set(Calendar.MONTH, mes - 1)
-        calendar.set(Calendar.DAY_OF_MONTH, dia)
-        return calendar.time
-    }
-     */
 
 }
