@@ -50,5 +50,15 @@ class BirthdayViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+    fun loadBirthdaysForDate(day: Int, month: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+
+            val birthdays = agendaDatabase.birthdayDao().getBirthdaysByDate(day, month)
+            withContext(Dispatchers.Main) {
+                birthdaysLiveData.value = birthdays
+            }
+        }
+    }
+
 
 }

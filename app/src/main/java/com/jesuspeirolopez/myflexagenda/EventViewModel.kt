@@ -39,4 +39,24 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
             agendaDatabase.eventDao().getById(eventId)
         }
     }
+    fun getSortedEvents(): LiveData<List<EventMO>> {
+        viewModelScope.launch(Dispatchers.IO) {
+            val events = agendaDatabase.eventDao().getAllEventsSorted()
+            withContext(Dispatchers.Main) {
+                eventsLiveData.value = events
+            }
+        }
+        return eventsLiveData
+    }
+
+    fun loadEventsForDate(day: Int, month: Int, year: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+
+            val events = agendaDatabase.eventDao().getEventsByDate(day, month, year)
+            withContext(Dispatchers.Main) {
+                eventsLiveData.value = events
+            }
+        }
+    }
+
 }

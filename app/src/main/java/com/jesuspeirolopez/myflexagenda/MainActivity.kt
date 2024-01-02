@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import com.jesuspeirolopez.myflexagenda.databinding.ActivityMainBinding
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -35,6 +36,8 @@ class MainActivity : AppCompatActivity() {
 
     //el birthday view model
     private lateinit var viewBirthdayModel: BirthdayViewModel
+
+    private var eventObserver: Observer<List<EventMO>>? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,21 +76,11 @@ class MainActivity : AppCompatActivity() {
 
         binding.dayAfter.setOnClickListener {
 
-            //Events
             calendar.add(Calendar.DAY_OF_MONTH, 1)
             updateActualDayTextViews()
-            viewModel = ViewModelProvider(this).get(EventViewModel::class.java)
-            val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
 
-            eventAdapter = EventAdapter(
-                viewModel.getEventsByCurrentDate(
-                    binding.actualDay.text.toString().toInt(),
-                    getMonthNumber(binding.actualDay3.text.toString()),
-                    binding.actualYear.text.toString().toInt()
-                ), viewModel
-            )
-            recyclerView.layoutManager = GridLayoutManager(this, 1)
-            recyclerView.adapter = eventAdapter
+            //Events
+            loadEventsForCurrentDate()
 
             //Birthdays
             viewBirthdayModel = ViewModelProvider(this).get(BirthdayViewModel::class.java)
@@ -120,19 +113,8 @@ class MainActivity : AppCompatActivity() {
 
             calendar.add(Calendar.DAY_OF_MONTH, -1)
             updateActualDayTextViews()
-            //Events
-            viewModel = ViewModelProvider(this).get(EventViewModel::class.java)
-            val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
 
-            eventAdapter = EventAdapter(
-                viewModel.getEventsByCurrentDate(
-                    binding.actualDay.text.toString().toInt(),
-                    getMonthNumber(binding.actualDay3.text.toString()),
-                    binding.actualYear.text.toString().toInt()
-                ), viewModel
-            )
-            recyclerView.layoutManager = GridLayoutManager(this, 1)
-            recyclerView.adapter = eventAdapter
+            loadEventsForCurrentDate()
 
             //Birthday
             viewBirthdayModel = ViewModelProvider(this).get(BirthdayViewModel::class.java)
@@ -162,7 +144,106 @@ class MainActivity : AppCompatActivity() {
 
         binding.dayWithEventAfter.setOnClickListener {
 
-            deleteAllEvents()
+            val dayNumber = binding.actualDay.text.toString().toInt()
+            val monthNumber = getMonthNumber(binding.actualDay3.text.toString())
+            val yearNumber = binding.actualYear.text.toString().toInt()
+
+            //Con o sin coroutine el bug sigue, se bloquea
+
+            viewModel.getSortedEvents().observe(this@MainActivity) { allEvents ->
+                val eventSorted =
+                    findClosestEvent(allEvents, dayNumber, monthNumber, yearNumber, true)
+
+                if (eventSorted != null) {
+                    val formattedDay = String.format("%02d", eventSorted.day)
+                    binding.actualDay.text = formattedDay
+                    binding.actualDay3.text = getMonthName(eventSorted.month)
+                    binding.actualYear.text = eventSorted.year.toString()
+
+                    calendar.set(Calendar.YEAR, eventSorted.year)
+                    calendar.set(Calendar.MONTH, eventSorted.month - 1)
+                    calendar.set(Calendar.DAY_OF_MONTH, eventSorted.day)
+
+                    loadEventsForCurrentDate()
+
+                    //Birthdays
+                    viewBirthdayModel = ViewModelProvider(this).get(BirthdayViewModel::class.java)
+
+                    viewBirthdayModel.getBirthdaysByDate(
+                        binding.actualDay.text.toString().toInt(),
+                        getMonthNumber(binding.actualDay3.text.toString())
+                    ).observe(this) { birthdayList ->
+
+                        var birthdayString = ""
+
+                        for (i in birthdayList.indices) {
+                            birthdayString += birthdayList[i].name
+                            if (i != birthdayList.size - 1) {
+                                birthdayString += ", "
+                            }
+                        }
+
+                        Log.d("Birthdays: ", birthdayString)
+                        if (birthdayString == "") {
+                            birthdayString = "¡No hay cumpleaños!"
+                        }
+                        binding.birthdayName.text = birthdayString
+                    }
+                }
+            }
+
+
+        }
+
+        binding.dayWithEventBefore.setOnClickListener {
+
+            val dayNumber = binding.actualDay.text.toString().toInt()
+            val monthNumber = getMonthNumber(binding.actualDay3.text.toString())
+            val yearNumber = binding.actualYear.text.toString().toInt()
+
+
+            viewModel.getSortedEvents().observe(this@MainActivity) { allEvents ->
+                val eventSorted =
+                    findClosestEvent(allEvents, dayNumber, monthNumber, yearNumber, false)
+
+                if (eventSorted != null) {
+                    val formattedDay = String.format("%02d", eventSorted.day)
+                    binding.actualDay.text = formattedDay
+                    binding.actualDay3.text = getMonthName(eventSorted.month)
+                    binding.actualYear.text = eventSorted.year.toString()
+
+                    calendar.set(Calendar.YEAR, eventSorted.year)
+                    calendar.set(Calendar.MONTH, eventSorted.month - 1)
+                    calendar.set(Calendar.DAY_OF_MONTH, eventSorted.day)
+
+                    loadEventsForCurrentDate()
+
+                    //Birthdays
+                    viewBirthdayModel = ViewModelProvider(this).get(BirthdayViewModel::class.java)
+
+                    viewBirthdayModel.getBirthdaysByDate(
+                        binding.actualDay.text.toString().toInt(),
+                        getMonthNumber(binding.actualDay3.text.toString())
+                    ).observe(this) { birthdayList ->
+
+                        var birthdayString = ""
+
+                        for (i in birthdayList.indices) {
+                            birthdayString += birthdayList[i].name
+                            if (i != birthdayList.size - 1) {
+                                birthdayString += ", "
+                            }
+                        }
+
+                        Log.d("Birthdays: ", birthdayString)
+                        if (birthdayString == "") {
+                            birthdayString = "¡No hay cumpleaños!"
+                        }
+                        binding.birthdayName.text = birthdayString
+                    }
+                }
+            }
+
 
         }
 
@@ -300,26 +381,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun convertEventMOListToEventList(eventMOList: List<EventMO>): List<Event> {
-        return eventMOList.map { eventMO ->
-            Event(
-                id = eventMO.id.toInt(), // Convertir Long a Int si es necesario
-                title = eventMO.title,
-                description = eventMO.description,
-                imagePath = eventMO.imagePath,
-                day = eventMO.day,
-                month = eventMO.month,
-                year = eventMO.year,
-                startTime = eventMO.startTime,
-                endTime = eventMO.endTime
-            )
-        }
-    }
-
-    fun printEventMOList(eventMOList: List<EventMO>) {
-        for (eventMO in eventMOList) {
-            println("EventMO ID: ${eventMO.id}")
-            println("Title: ${eventMO.title}")
+    fun getMonthName(monthNumber: Int): String {
+        return when (monthNumber) {
+            1 -> "enero"
+            2 -> "febrero"
+            3 -> "marzo"
+            4 -> "abril"
+            5 -> "mayo"
+            6 -> "junio"
+            7 -> "julio"
+            8 -> "agosto"
+            9 -> "septiembre"
+            10 -> "octubre"
+            11 -> "noviembre"
+            12 -> "diciembre"
+            else -> throw IllegalArgumentException("Número de mes no válido: $monthNumber")
         }
     }
 
@@ -327,6 +403,67 @@ class MainActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             agendaDatabase.eventDao().deleteAllEvents()
+        }
+
+    }
+
+    fun findClosestEvent(
+        allEvents: List<EventMO>,
+        actualDay1: Int,
+        actualDay3: Int,
+        actualYear: Int,
+        after: Boolean
+    ): EventMO? {
+
+        val currentCalendar = Calendar.getInstance().apply {
+            set(actualYear, actualDay3, actualDay1)
+        }
+
+        val filteredEvents = if (after) {
+            //Filtra eventos que ocurren después del día proporcionado
+            allEvents.filter { event ->
+                val eventDate = Calendar.getInstance().apply {
+                    set(event.year, event.month, event.day)
+                }
+                return@filter eventDate.timeInMillis > currentCalendar.timeInMillis
+            }
+        } else {
+            //Filtrar eventos que ocurren antes del día proporcionado
+            allEvents.filter { event ->
+                val eventDate = Calendar.getInstance().apply {
+                    set(event.year, event.month, event.day)
+                }
+                return@filter eventDate.timeInMillis < currentCalendar.timeInMillis
+            }
+        }
+
+        // Encontrar el evento más cercano entre los eventos filtrados
+        return filteredEvents.minByOrNull { event ->
+            val eventDate = Calendar.getInstance().apply {
+                set(event.year, event.month, event.day)
+            }
+            return@minByOrNull Math.abs(currentCalendar.timeInMillis - eventDate.timeInMillis)
+        }
+    }
+
+    private fun loadEventsForCurrentDate() {
+        val currentDay = binding.actualDay.text.toString().toInt()
+        val currentMonth = getMonthNumber(binding.actualDay3.text.toString())
+        val currentYear = binding.actualYear.text.toString().toInt()
+
+        CoroutineScope(Dispatchers.Main).launch {
+            viewModel.loadEventsForDate(currentDay, currentMonth, currentYear)
+        }
+    }
+
+    //No funciona igual
+    private fun loadBirthdaysForCurrentDate() {
+
+        val currentDay = binding.actualDay.text.toString().toInt()
+        val currentMonth = getMonthNumber(binding.actualDay3.text.toString())
+
+        CoroutineScope(Dispatchers.Main).launch {
+            viewBirthdayModel.loadBirthdaysForDate(currentDay, currentMonth)
         }
 
     }

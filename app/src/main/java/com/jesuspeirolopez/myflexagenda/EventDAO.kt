@@ -29,4 +29,7 @@ interface EventDAO {
     @Query("SELECT * FROM events WHERE day = :day AND month = :month AND year = :year")
     fun getEventsByDate(day: Int, month: Int, year: Int): List<EventMO>
 
+    @Query("SELECT * FROM events ORDER BY year, month, day")
+    fun getAllEventsSorted(): List<EventMO>
+
 }
