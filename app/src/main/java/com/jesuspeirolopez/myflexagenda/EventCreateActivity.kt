@@ -1,16 +1,21 @@
 package com.jesuspeirolopez.myflexagenda
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
 import android.text.InputFilter
+import android.util.Log
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
 import com.jesuspeirolopez.myflexagenda.databinding.ActivityEventCreateBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.Calendar
 
 class EventCreateActivity : AppCompatActivity() {
 
@@ -18,16 +23,43 @@ class EventCreateActivity : AppCompatActivity() {
 
     private lateinit var agendaDatabase: AgendaDatabase
 
+    private val SELECT_PICTURE = 200
+
+    private lateinit var imageChooserLauncher: ActivityResultLauncher<Intent>
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEventCreateBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        imageChooserLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            onActivityResult(result.resultCode, result.data)
+        }
 
         agendaDatabase = Room.databaseBuilder(
             applicationContext,
             AgendaDatabase::class.java, "agenda-database"
         ).build()
+
+        /*
+        var selectedImageUri: Uri? = null
+
+        val imageChooserLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val data: Intent? = result.data
+                selectedImageUri = data?.data
+
+                // Ahora puedes usar selectedImageUri donde lo necesites
+                Log.d("ImageURI", "Image URI: $selectedImageUri")
+            }
+        }
+
+         */
 
         binding.eventCreateTextTime1.filters = arrayOf(InputFilter.LengthFilter(5))
         binding.eventCreateTextTime2.filters = arrayOf(InputFilter.LengthFilter(5))
@@ -49,6 +81,8 @@ class EventCreateActivity : AppCompatActivity() {
             val month = getMonthNumber(binding.eventCreateDay3.text.toString())
             val year = binding.eventCreateYear.text.toString().toInt()
 
+            val imagePath = binding.imageInsert.toString()
+
             val event = EventMO(
                 title = title,
                 description = description,
@@ -57,7 +91,7 @@ class EventCreateActivity : AppCompatActivity() {
                 day = day,
                 month = month,
                 year = year,
-                imagePath = ""
+                imagePath = imagePath
             )
 
             if (startTime == "" || endTime == "" || title == "") {
@@ -114,6 +148,13 @@ class EventCreateActivity : AppCompatActivity() {
 
         }
 
+        binding.addImageText.setOnClickListener {
+            runOnUiThread {
+                imageChooser()
+            }
+
+        }
+
         binding.eventCreateDay1.text = intent.getStringExtra("day")
         binding.eventCreateDay3.text = intent.getStringExtra("month")
         binding.eventCreateYear.text = intent.getStringExtra("year")
@@ -136,6 +177,29 @@ class EventCreateActivity : AppCompatActivity() {
             "noviembre" -> 11
             "diciembre" -> 12
             else -> throw IllegalArgumentException("Nombre del mes no válido: $nombreMes")
+        }
+    }
+
+    private fun imageChooser() {
+
+        val i = Intent()
+        i.type = "image/*"
+        i.action = Intent.ACTION_GET_CONTENT
+
+        imageChooserLauncher.launch(Intent.createChooser(i, "Select Picture"))
+    }
+
+    private fun onActivityResult(resultCode: Int, data: Intent?) {
+        if (resultCode == RESULT_OK) {
+
+            if (resultCode == SELECT_PICTURE) {
+
+                val selectedImageUri: Uri? = data?.data
+                if (selectedImageUri != null) {
+
+                    binding.imageInsert.setImageURI(selectedImageUri)
+                }
+            }
         }
     }
 

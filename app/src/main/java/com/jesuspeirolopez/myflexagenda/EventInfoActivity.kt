@@ -3,10 +3,12 @@ package com.jesuspeirolopez.myflexagenda
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.jesuspeirolopez.myflexagenda.databinding.ActivityEventInfoBinding
 import kotlinx.coroutines.launch
+import kotlin.math.log
 
 class EventInfoActivity : AppCompatActivity() {
 
@@ -31,6 +33,10 @@ class EventInfoActivity : AppCompatActivity() {
                 binding.eventInfoDescription.text = eventFromId.description
                 binding.startTimeInfo.text = eventFromId.startTime
                 binding.endTimeInfo.text = eventFromId.endTime
+                binding.imageView2.setImageURI(eventFromId.imagePath.toUri())
+                println("hey: " + eventFromId.imagePath)
+                binding.imageView2.requestLayout()
+                binding.imageView2.invalidate()
             }
         } else {
 
