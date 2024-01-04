@@ -69,13 +69,17 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.birthdayCheck.setOnClickListener {
+        binding.birthdayCheckImage.setOnClickListener{
             val intent = Intent(this@MainActivity, BirthdayEventsActivity::class.java)
             startActivity(intent)
         }
 
-        binding.dayAfter.setOnClickListener {
+        binding.birthdayName.setOnClickListener{
+            val intent = Intent(this@MainActivity, BirthdayEventsActivity::class.java)
+            startActivity(intent)
+        }
 
+        binding.dayAfterImage.setOnClickListener {
             calendar.add(Calendar.DAY_OF_MONTH, 1)
             updateActualDayTextViews()
 
@@ -101,15 +105,18 @@ class MainActivity : AppCompatActivity() {
 
                 Log.d("Birthdays: ", birthdayString)
                 if (birthdayString == "") {
+                    binding.birthdayCheckImage.alpha = 0.3f
+                    binding.birthdayCheckImage.invalidate()
                     birthdayString = "¡No hay cumpleaños!"
+                } else {
+                    binding.birthdayCheckImage.alpha = 1f
+                    binding.birthdayCheckImage.invalidate()
                 }
                 binding.birthdayName.text = birthdayString
             }
-
-
         }
 
-        binding.dayBefore.setOnClickListener {
+        binding.dayBeforeImage.setOnClickListener{
 
             calendar.add(Calendar.DAY_OF_MONTH, -1)
             updateActualDayTextViews()
@@ -135,15 +142,19 @@ class MainActivity : AppCompatActivity() {
 
                 Log.d("Birthdays: ", birthdayString)
                 if (birthdayString == "") {
+                    binding.birthdayCheckImage.alpha = 0.3f
+                    binding.birthdayCheckImage.invalidate()
                     birthdayString = "¡No hay cumpleaños!"
+                } else {
+                    binding.birthdayCheckImage.alpha = 1f
+                    binding.birthdayCheckImage.invalidate()
                 }
                 binding.birthdayName.text = birthdayString
             }
 
         }
 
-        binding.dayWithEventAfter.setOnClickListener {
-
+        binding.dayAfterWithEventImage.setOnClickListener{
             val dayNumber = binding.actualDay.text.toString().toInt()
             val monthNumber = getMonthNumber(binding.actualDay3.text.toString())
             val yearNumber = binding.actualYear.text.toString().toInt()
@@ -185,18 +196,20 @@ class MainActivity : AppCompatActivity() {
 
                         Log.d("Birthdays: ", birthdayString)
                         if (birthdayString == "") {
+                            binding.birthdayCheckImage.alpha = 0.3f
+                            binding.birthdayCheckImage.invalidate()
                             birthdayString = "¡No hay cumpleaños!"
+                        } else {
+                            binding.birthdayCheckImage.alpha = 1f
+                            binding.birthdayCheckImage.invalidate()
                         }
                         binding.birthdayName.text = birthdayString
                     }
                 }
             }
-
-
         }
 
-        binding.dayWithEventBefore.setOnClickListener {
-
+        binding.dayBeforeWithEventImage.setOnClickListener {
             val dayNumber = binding.actualDay.text.toString().toInt()
             val monthNumber = getMonthNumber(binding.actualDay3.text.toString())
             val yearNumber = binding.actualYear.text.toString().toInt()
@@ -237,14 +250,17 @@ class MainActivity : AppCompatActivity() {
 
                         Log.d("Birthdays: ", birthdayString)
                         if (birthdayString == "") {
+                            binding.birthdayCheckImage.alpha = 0.3f
+                            binding.birthdayCheckImage.invalidate()
                             birthdayString = "¡No hay cumpleaños!"
+                        } else {
+                            binding.birthdayCheckImage.alpha = 1f
+                            binding.birthdayCheckImage.invalidate()
                         }
                         binding.birthdayName.text = birthdayString
                     }
                 }
             }
-
-
         }
 
         //Compruebo si viene un intent con extra o no para los valores del día
@@ -307,7 +323,12 @@ class MainActivity : AppCompatActivity() {
 
             Log.d("Birthdays: ", birthdayString)
             if (birthdayString == "") {
+                binding.birthdayCheckImage.alpha = 0.3f
+                binding.birthdayCheckImage.invalidate()
                 birthdayString = "¡No hay cumpleaños!"
+            } else {
+                binding.birthdayCheckImage.alpha = 1f
+                binding.birthdayCheckImage.invalidate()
             }
             binding.birthdayName.text = birthdayString
         }
