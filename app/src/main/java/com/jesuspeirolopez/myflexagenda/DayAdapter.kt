@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 
 class DayAdapter(private val context: Context, private val days: List<String>, private val month: String, private val year: String) : BaseAdapter() {
 
@@ -19,6 +20,9 @@ class DayAdapter(private val context: Context, private val days: List<String>, p
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val button = Button(context)
         button.text = days[position]
+
+        button.backgroundTintList = ContextCompat.getColorStateList(context, R.color.lighter_blue)
+
         button.setOnClickListener {
 
             val intent = Intent(context, MainActivity::class.java)

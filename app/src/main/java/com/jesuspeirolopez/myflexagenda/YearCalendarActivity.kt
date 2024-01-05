@@ -29,13 +29,13 @@ class YearCalendarActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.yearAfter.setOnClickListener {
+        binding.yearAfterImage.setOnClickListener{
             var yearNumber = binding.yearCalendarNumber.text.toString().toInt()
             yearNumber++
             binding.yearCalendarNumber.text = yearNumber.toString()
         }
 
-        binding.yearBefore.setOnClickListener {
+        binding.yearBeforeImage.setOnClickListener {
             var yearNumber = binding.yearCalendarNumber.text.toString().toInt()
             yearNumber--
             binding.yearCalendarNumber.text = yearNumber.toString()
