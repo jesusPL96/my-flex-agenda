@@ -52,7 +52,9 @@ class MainActivity : AppCompatActivity() {
 
         binding.actualYear.setOnClickListener {
 
+            val yearNumber = binding.actualYear.text.toString()
             val intent = Intent(this@MainActivity, YearCalendarActivity::class.java)
+            intent.putExtra("year", yearNumber)
             startActivity(intent)
         }
 

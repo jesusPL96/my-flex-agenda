@@ -13,6 +13,8 @@ class YearCalendarActivity : AppCompatActivity() {
         binding = ActivityYearCalendarBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+
         val monthButtons = arrayOf(
             binding.januaryButton, binding.februaryButton, binding.marchButton,
             binding.aprilButton, binding.mayButton, binding.juneButton,
@@ -50,6 +52,12 @@ class YearCalendarActivity : AppCompatActivity() {
                 intent.putExtra("yearNumber", yearNumber)
                 startActivity(intent)
             }
+        }
+        if(intent.hasExtra("year")){
+
+            val yearString: String? = intent.getStringExtra("year")
+            binding.yearCalendarNumber.text = yearString
+
         }
 
 
