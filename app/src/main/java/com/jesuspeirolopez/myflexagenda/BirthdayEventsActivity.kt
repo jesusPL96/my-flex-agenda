@@ -21,17 +21,20 @@ class BirthdayEventsActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get(BirthdayViewModel::class.java)
 
+        //RecyclerView con la lista de cumpleaños
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView2)
         birthdayAdapter = BirthdayAdapter(viewModel.getAllBirthdays(), viewModel)
         recyclerView.layoutManager = GridLayoutManager(this, 1)
         recyclerView.adapter = birthdayAdapter
 
 
+        //Boton para volver a la actividad principal
         binding.birthdaysBack.setOnClickListener {
             val intent = Intent(this@BirthdayEventsActivity, MainActivity::class.java)
             startActivity(intent)
         }
 
+        //Boton para ir a la actividad de crear cumpleaños
         binding.addBirthdayButton.setOnClickListener {
             val intent = Intent(this@BirthdayEventsActivity, BirthdayCreate::class.java)
             startActivity(intent)

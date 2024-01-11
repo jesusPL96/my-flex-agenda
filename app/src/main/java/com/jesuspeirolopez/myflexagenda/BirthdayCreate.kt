@@ -24,16 +24,20 @@ class BirthdayCreate : AppCompatActivity() {
 
         binding.createBirthdayButton.setOnClickListener {
 
+            //Datos en las variables a guardar
             val name = binding.birthdayCreateName.text.toString()
             val day = binding.dayAndMonthPicker.dayOfMonth
             val month = binding.dayAndMonthPicker.month+1
 
+            //Se crea el cumpleaños a guardar
             val birthdayToInsert = BirthdayMO(name = name, day = day, month = month)
 
             viewModel.insertBirthday(birthdayToInsert)
 
+            //Aviso de que se ha guardado correctamente
             Toast.makeText(this@BirthdayCreate, "Cumpleaños guardado", Toast.LENGTH_SHORT).show()
 
+            //Paso a la actividad de la lista de cumpleaños
             val intent = Intent(this@BirthdayCreate, BirthdayEventsActivity::class.java)
             startActivity(intent)
 
@@ -41,7 +45,7 @@ class BirthdayCreate : AppCompatActivity() {
 
         }
 
-
+        //Boton para volver
         binding.backCreateBirthday.setOnClickListener {
             val intent = Intent(this@BirthdayCreate, BirthdayEventsActivity::class.java)
             startActivity(intent)

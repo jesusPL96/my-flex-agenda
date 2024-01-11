@@ -360,16 +360,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    //Para eliminar, es de prueba
-    private fun exampleEvents(): List<Event> {
-
-        return listOf(
-            Event(1, "Sacar al perro", "Descripción", "", 1, 4, 2023, "00", "00"),
-            Event(2, "Cita dentista", "Descripción", "", 1, 2, 2023, "23", "59"),
-
-            )
-    }
-
     private fun getEventsByCurrentDate(): List<EventMO> {
 
         var eventsList: List<EventMO> = emptyList()
@@ -479,7 +469,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    //No funciona igual
+
     private fun loadBirthdaysForCurrentDate() {
 
         val currentDay = binding.actualDay.text.toString().toInt()

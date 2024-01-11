@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.Date
 
+//Objeto "Evento" de la base de datos
 @Entity(tableName = "events")
 data class EventMO(
     @PrimaryKey(autoGenerate = true)

@@ -13,8 +13,7 @@ class YearCalendarActivity : AppCompatActivity() {
         binding = ActivityYearCalendarBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
+        //Botones de los distintos meses
         val monthButtons = arrayOf(
             binding.januaryButton, binding.februaryButton, binding.marchButton,
             binding.aprilButton, binding.mayButton, binding.juneButton,
@@ -22,7 +21,7 @@ class YearCalendarActivity : AppCompatActivity() {
             binding.octoberButton, binding.novemberButton, binding.decemberButton
         )
 
-
+        //Boton de volver a la pantalla anterior
         binding.yearCalendarBack.setOnClickListener {
 
             val intent = Intent(this@YearCalendarActivity, MainActivity::class.java)
@@ -31,18 +30,21 @@ class YearCalendarActivity : AppCompatActivity() {
             finish()
         }
 
+        //Listener de la flecha para pasar al año siguiente
         binding.yearAfterImage.setOnClickListener{
             var yearNumber = binding.yearCalendarNumber.text.toString().toInt()
             yearNumber++
             binding.yearCalendarNumber.text = yearNumber.toString()
         }
 
+        //Listener de la flecha para pasar al año anterior
         binding.yearBeforeImage.setOnClickListener {
             var yearNumber = binding.yearCalendarNumber.text.toString().toInt()
             yearNumber--
             binding.yearCalendarNumber.text = yearNumber.toString()
         }
 
+        //Listener que se aplica a todos los botones de los distintos meses
         for ((index, button) in monthButtons.withIndex()) {
             button.setOnClickListener {
                 val monthName = getMonthName(index + 1)
@@ -53,6 +55,7 @@ class YearCalendarActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+        //Si viene un año, lo asigna en vez del actual
         if(intent.hasExtra("year")){
 
             val yearString: String? = intent.getStringExtra("year")

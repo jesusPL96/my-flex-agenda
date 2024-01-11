@@ -11,12 +11,14 @@ import androidx.core.content.ContextCompat
 
 class DayAdapter(private val context: Context, private val days: List<String>, private val month: String, private val year: String) : BaseAdapter() {
 
+    //Funciones básicas para los días del mes en el calendario
     override fun getCount(): Int = days.size
 
     override fun getItem(position: Int): Any = days[position]
 
     override fun getItemId(position: Int): Long = position.toLong()
 
+    //Para que los días del mes funcionen como botones para moverse al dia concreto
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val button = Button(context)
         button.text = days[position]

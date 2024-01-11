@@ -26,6 +26,7 @@ class EventInfoActivity : AppCompatActivity() {
         val eventId = intent.getLongExtra("eventId", -1)
         if (eventId != -1L) {
 
+            //Aqui ponemos toda la informacion del evento en la actividad segun viene por la id
             viewModel.viewModelScope.launch {
                 val eventFromId = viewModel.getEventById(eventId)
 
@@ -34,7 +35,6 @@ class EventInfoActivity : AppCompatActivity() {
                 binding.startTimeInfo.text = eventFromId.startTime
                 binding.endTimeInfo.text = eventFromId.endTime
                 binding.imageView2.setImageURI(eventFromId.imagePath.toUri())
-                println("hey: " + eventFromId.imagePath)
                 binding.imageView2.requestLayout()
                 binding.imageView2.invalidate()
             }
@@ -42,7 +42,7 @@ class EventInfoActivity : AppCompatActivity() {
 
         }
 
-
+        //Boton para volver atrás
         binding.eventInfoBack.setOnClickListener{
 
             val intent = Intent(this@EventInfoActivity, MainActivity::class.java)

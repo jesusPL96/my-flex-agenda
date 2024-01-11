@@ -1,6 +1,5 @@
 package com.jesuspeirolopez.myflexagenda
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import kotlinx.coroutines.launch
 class BirthdayAdapter(private val birthdays: LiveData<List<BirthdayMO>>, private val birthdayViewModel: BirthdayViewModel) : RecyclerView.Adapter<BirthdayAdapter.ViewHolder>() {
 
 
+    //Para actualizar los datos al actualizarlos en el recycler
     init {
         birthdays.observeForever { notifyDataSetChanged() }
     }
@@ -36,6 +36,7 @@ class BirthdayAdapter(private val birthdays: LiveData<List<BirthdayMO>>, private
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        //Asignacion de los valores y el listener en el boton a cada item cumpleaños
         birthdays.value?.let { birthdayList ->
             val birthday = birthdayList[position]
             holder.birthdayName.text = birthday.name
@@ -46,7 +47,7 @@ class BirthdayAdapter(private val birthdays: LiveData<List<BirthdayMO>>, private
             holder.birthdayDeleteButton.setOnClickListener {
                 val birthdayId = birthday.id
 
-                //Arreglar esto...
+
                 CoroutineScope(Dispatchers.IO).launch {
                     birthdayViewModel.deleteBirthdayById(birthdayId)
                 }

@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 class EventAdapter(private val events: LiveData<List<EventMO>>, private val eventViewModel: EventViewModel) : RecyclerView.Adapter<EventAdapter.ViewHolder>() {
 
 
-    //Esto no es óptimo ni seguro pero funciona de alguna forma
+    //Para actualizar los datos al actualizarlos en el recycler
     init {
         events.observeForever { notifyDataSetChanged() }
     }
@@ -39,6 +39,7 @@ class EventAdapter(private val events: LiveData<List<EventMO>>, private val even
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
+        //Asignacion de los valores y el listener en el boton a cada item evento
         val event = events.value?.get(position)
         event?.let {
             holder.titleTextView.text = it.title

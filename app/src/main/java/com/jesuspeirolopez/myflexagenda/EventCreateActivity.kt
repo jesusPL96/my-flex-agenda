@@ -54,13 +54,13 @@ class EventCreateActivity : AppCompatActivity() {
                 val data: Intent? = result.data
                 selectedImageUri = data?.data
 
-                // Ahora puedes usar selectedImageUri donde lo necesites
+
                 Log.d("ImageURI", "Image URI: $selectedImageUri")
             }
         }
-
          */
 
+        //Longitud máxima para las horas
         binding.eventCreateTextTime1.filters = arrayOf(InputFilter.LengthFilter(5))
         binding.eventCreateTextTime2.filters = arrayOf(InputFilter.LengthFilter(5))
 
@@ -95,15 +95,18 @@ class EventCreateActivity : AppCompatActivity() {
             )
 
             if (startTime == "" || endTime == "" || title == "") {
+                //Toast por si dejas campos vacíos en las horas o el título
                 Toast.makeText(
                     this@EventCreateActivity,
                     "Error: No dejes campos vacíos",
                     Toast.LENGTH_SHORT
                 ).show()
             } else if (
+                //Expresión regular para que las horas sigan un patrón correcto
                 !binding.eventCreateTextTime1.text.matches(Regex("^([01]?[0-9]|2[0-3]):[0-5][0-9]\$"))
                 || !binding.eventCreateTextTime2.text.matches(Regex("^([01]?[0-9]|2[0-3]):[0-5][0-9]\$"))
             ) {
+                //Toast por si no siguen las horas el patrón
                 Toast.makeText(
                     this@EventCreateActivity,
                     "Error: Formato de hora incorrecto",
@@ -123,6 +126,7 @@ class EventCreateActivity : AppCompatActivity() {
                 val endHour = endTimeParts[0].toInt()
                 val endMinute = endTimeParts[1].toInt()
 
+                //Comprobacion para comprobar que la hora final no sea antes de la inicial, pero puede ser igual
                 if (startHour > endHour || (startHour == endHour && startMinute > endMinute)) {
                     Toast.makeText(
                         this@EventCreateActivity,
@@ -130,14 +134,16 @@ class EventCreateActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
+                    //Corrutina para insertar el evento y actualizar en el recyclerview
                     CoroutineScope(Dispatchers.IO).launch {
                         agendaDatabase.eventDao().insertEvent(event)
                     }
 
-
+                    //Toast para indicar que el evento se ha guardado
                     Toast.makeText(this@EventCreateActivity, "Evento guardado", Toast.LENGTH_SHORT)
                         .show()
 
+                    //Con esto volvemos de nuevo a la pantalla principal
                     val intent = Intent(this@EventCreateActivity, MainActivity::class.java)
                     startActivity(intent)
 
@@ -148,6 +154,7 @@ class EventCreateActivity : AppCompatActivity() {
 
         }
 
+        //Método que actualiza en tiempo real la interfaz para elegir la imagen
         binding.addImageText.setOnClickListener {
             runOnUiThread {
                 imageChooser()
@@ -155,6 +162,7 @@ class EventCreateActivity : AppCompatActivity() {
 
         }
 
+        //Para poner el dia, mes y año que vengan de la actividad principal
         binding.eventCreateDay1.text = intent.getStringExtra("day")
         binding.eventCreateDay3.text = intent.getStringExtra("month")
         binding.eventCreateYear.text = intent.getStringExtra("year")
@@ -162,6 +170,7 @@ class EventCreateActivity : AppCompatActivity() {
 
     }
 
+    //Método para convertir el nombre de un mes a su respectivo numero
     fun getMonthNumber(nombreMes: String): Int {
         return when (nombreMes.lowercase()) {
             "enero" -> 1
@@ -180,6 +189,7 @@ class EventCreateActivity : AppCompatActivity() {
         }
     }
 
+    //Método para elegir la imagen
     private fun imageChooser() {
 
         val i = Intent()
@@ -189,6 +199,7 @@ class EventCreateActivity : AppCompatActivity() {
         imageChooserLauncher.launch(Intent.createChooser(i, "Select Picture"))
     }
 
+    //Otra parte del método para añadir la imagen
     private fun onActivityResult(resultCode: Int, data: Intent?) {
         if (resultCode == RESULT_OK) {
 

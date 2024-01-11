@@ -22,18 +22,21 @@ class BirthdayViewModel(application: Application) : AndroidViewModel(application
     private val birthdaysLiveData: MutableLiveData<List<BirthdayMO>> = MutableLiveData()
 
 
+    //Conseguir los cumpleaños por una fecha - para el día concreto
     fun getBirthdaysByDate(day: Int, month: Int): LiveData<List<BirthdayMO>> {
         return liveData(Dispatchers.IO) {
             emit(agendaDatabase.birthdayDao().getBirthdaysByDate(day, month))
         }
     }
 
+    //Insertar cumpleaños
     fun insertBirthday(birthday: BirthdayMO) {
         viewModelScope.launch(Dispatchers.IO) {
             agendaDatabase.birthdayDao().insertBirthday(birthday)
         }
     }
 
+    //Coger todos los cumpleaños - para la lista de todos los cumpleaños
     fun getAllBirthdays(): LiveData<List<BirthdayMO>> {
         viewModelScope.launch(Dispatchers.IO) {
             val birthdays = agendaDatabase.birthdayDao().getAllBirthdays()
@@ -44,6 +47,7 @@ class BirthdayViewModel(application: Application) : AndroidViewModel(application
         return birthdaysLiveData
     }
 
+    //Eliminar el cumpleaños - para eliminar un cumpleaños especifico de la lista
     fun deleteBirthdayById(birthdayId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             agendaDatabase.birthdayDao().deleteBirthdayById(birthdayId)

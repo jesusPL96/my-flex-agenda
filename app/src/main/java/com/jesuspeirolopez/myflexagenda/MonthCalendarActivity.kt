@@ -14,6 +14,7 @@ class MonthCalendarActivity : AppCompatActivity() {
         binding = ActivityMonthCalendarBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //Boton de volver a la pantalla anterior
         binding.monthCalendarBack.setOnClickListener {
             val intent = Intent(this@MonthCalendarActivity, YearCalendarActivity::class.java)
             startActivity(intent)
@@ -21,17 +22,18 @@ class MonthCalendarActivity : AppCompatActivity() {
             finish()
         }
 
+        //Coge el mes y el año de forma inicial
         val monthName = intent.getStringExtra("monthName") ?: "enero"
         val yearNumber = intent.getStringExtra("yearNumber") ?: "2023"
 
-
+        //Mes y año asignados según hayan venido
         binding.monthName.text = monthName
         binding.yearNumber.text = yearNumber
 
+        //Coge los días dependiendo de que mes sea
         val daysInMonth = getDaysInMonth(getMonthNumber(monthName))
 
         val daysOfMonth = (1..daysInMonth).map { it.toString() }
-
 
         val adapter = DayAdapter(this, daysOfMonth, monthName, yearNumber)
         binding.gridView.adapter = adapter
@@ -39,6 +41,7 @@ class MonthCalendarActivity : AppCompatActivity() {
 
     }
 
+    //Metodo que devuelve el numero de dias según el mes
     fun getDaysInMonth(month: Int): Int {
         return when (month) {
             2 -> 28
@@ -47,6 +50,7 @@ class MonthCalendarActivity : AppCompatActivity() {
         }
     }
 
+    //Devuelve el numero del mes repescto el nombre del mes
     fun getMonthNumber(nombreMes: String): Int {
         return when (nombreMes.lowercase()) {
             "enero" -> 1
