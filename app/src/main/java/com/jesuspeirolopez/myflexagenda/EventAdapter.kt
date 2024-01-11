@@ -44,12 +44,12 @@ class EventAdapter(private val events: LiveData<List<EventMO>>, private val even
             holder.titleTextView.text = it.title
 
             holder.hourTextView.text = it.startTime
-            //Seguramente deje el minuto como id oculta
+
             holder.minuteTextView.text= it.id.toString()
             holder.deleteButton.setOnClickListener {
                 val eventId = event.id
 
-                //Arreglar esto...
+
                 CoroutineScope(Dispatchers.IO).launch {
                     eventViewModel.deleteEventById(eventId)
                 }

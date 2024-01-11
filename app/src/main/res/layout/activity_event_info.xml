@@ -50,12 +50,13 @@
 
     <TextView
         android:id="@+id/eventInfoName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="246dp"
+        android:layout_height="46dp"
         android:text="Nombre Evento"
+        android:textAlignment="center"
+        android:textColor="@color/black"
         android:textSize="28sp"
         android:textStyle="bold"
-        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -94,13 +95,13 @@
 
     <TextView
         android:id="@+id/eventInfoDescription"
-        android:layout_width="308dp"
-        android:layout_height="144dp"
+        android:layout_width="328dp"
+        android:layout_height="153dp"
+        android:background="@drawable/border_recycler"
         android:gravity="center"
         android:text="Descripción evento..."
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:background="@drawable/border_recycler"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.514"
